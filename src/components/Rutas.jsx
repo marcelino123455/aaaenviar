@@ -8,6 +8,8 @@ import Inicio from './Inicio';
 import Login from './Login';
 import Signup from './Signup';
 import Modal_signup from './Modal_signup'
+import MangaPage from './MangaPage';
+
 function Rutas(){
     return(
             <Routes>
@@ -17,6 +19,7 @@ function Rutas(){
                 <Route exact  path="/signin" element={ <Login/> } />
                 <Route exact  path="/signup" element={ <Signup/> } />
                 <Route exact  path="/prueba" element={ <Modal_signup/> } />
+                <Route exact path="/otro/comics/:id" element={<MangaPage />} />
             </Routes>
 
     )

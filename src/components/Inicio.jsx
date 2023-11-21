@@ -1,14 +1,16 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './footer';
-import MangaPerfilCards from './mangaPerfil'
 import Slider from './slider'
+import TicketCards from './cards';
+
+
 function Inicio(){
     return(
         <div>
             <Header></Header>
             <Slider></Slider>
-            <MangaPerfilCards></MangaPerfilCards>
+            <TicketCards></TicketCards>
             <Footer></Footer>
         </div>
     );

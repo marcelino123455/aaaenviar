@@ -1,71 +1,97 @@
-import { Carousel } from 'react-carousel-minimal';
+import React, { useEffect } from 'react';
+import './scripts.js';
 
-function App() {
- const data = [
-    {
-      image:  process.env.PUBLIC_URL + "/imagenes/inicio1.png",
-      caption: "Nosotros"
-    },
-    {
-      image: process.env.PUBLIC_URL + "/imagenes/inicio2.jpg",
-      caption: "Amamos"
-    },
-    {
-      image: process.env.PUBLIC_URL + "/imagenes/inicio3.jpg",
-      caption: "los"
-    },
-    {
-      image: process.env.PUBLIC_URL + "/imagenes/inicio4.jpg",
-      caption: "Comics"
+const data = [
+  {
+    image: process.env.PUBLIC_URL + "/imagenes/inicio1.png",
+  },
+  {
+    image: process.env.PUBLIC_URL + "/imagenes/inicio2.jpg",
+  },
+  {
+    image: process.env.PUBLIC_URL + "/imagenes/inicio3.jpg",
+  },
+  {
+    image: process.env.PUBLIC_URL + "/imagenes/inicio4.jpg",
+  },
+];
+
+function Slider() {
+  useEffect(() => {
+    let slider = document.querySelector('.slider .list');
+    let items = document.querySelectorAll('.slider .list .item');
+    let next = document.getElementById('next');
+    let prev = document.getElementById('prev');
+    let dots = document.querySelectorAll('.slider .dots li');
+
+    let lengthItems = items.length - 1;
+    let active = 0;
+
+    next.onclick = function () {
+      active = active + 1 <= lengthItems ? active + 1 : 0;
+      reloadSlider();
     }
-  ];
 
-  const captionStyle = {
-    fontSize: '2em',
-    fontWeight: 'bold',
-  }
-  const slideNumberStyle = {
-    fontSize: '20px',
-    fontWeight: 'bold',
-  }
+    prev.onclick = function () {
+      active = active - 1 >= 0 ? active - 1 : lengthItems;
+      reloadSlider();
+    }
+
+    let refreshInterval = setInterval(() => { next.click() }, 3000);
+
+    function reloadSlider() {
+      slider.style.left = -items[active].offsetLeft + 'px';
+
+      let last_active_dot = document.querySelector('.slider .dots li.active');
+      last_active_dot.classList.remove('active');
+      dots[active].classList.add('active');
+
+      clearInterval(refreshInterval);
+      refreshInterval = setInterval(() => { next.click() }, 3000);
+    }
+
+    dots.forEach((li, key) => {
+      li.addEventListener('click', () => {
+        active = key;
+        reloadSlider();
+      });
+    });
+
+    window.onresize = function (event) {
+      reloadSlider();
+    };
+
+    return () => {
+      // Cleanup logic if needed
+      clearInterval(refreshInterval);
+    };
+  }, []); // Empty dependency array ensures that the effect runs only once after the initial render
+
   return (
-    <div className="App">
-      <div style={{ textAlign: "center" }}>
-        <div style={{
-          padding: "0 20px",
-          marginTop:'100px',
-          marginBottom:'200px'
-        }}>
-          <Carousel
-            data={data}
-            time={5000}
-            width="100%"
-            height="800px"
-            captionStyle={captionStyle}
-            radius="10px"
-            slideNumber={true}
-            slideNumberStyle={slideNumberStyle}
-            captionPosition="bottom"
-            automatic={true}
-            dots={true}
-            pauseIconColor="white"
-            pauseIconSize="40px"
-            slideBackgroundColor="darkgrey"
-            slideImageFit="cover"
-            thumbnails={false}
-            thumbnailWidth="100px"
-            style={{
-              textAlign: "center",
-              maxWidth: "1000vw",
-              maxHeight: "600px",
-              margin: "40px auto",
-            }}
-          />
-        </div>
+    <div className="slider">
+      <div className="list">
+        {data.map((item, index) => (
+          <div className="item" key={index}>
+            <img className="img-item" src={item.image} alt={item.caption} />
+          </div>
+        ))}
+      </div>
+      <div className="buttons">
+        <button id="prev">{'<'}</button>
+        <button id="next">{'>'}</button>
+      </div>
+      <ul className="dots">
+        {data.map((_, index) => (
+          <li key={index} className={index === 0 ? 'active' : ''}></li>
+        ))}
+      </ul>
+      <div className="image-overlay">
+        <h1>NUESTROS MEJORES ANIMES</h1>
+        <p>Disfrútalos ahora!!!</p>
+        <button className="hover-button">Leer</button>
       </div>
     </div>
   );
 }
 
-export default App;
-
+export default Slider;

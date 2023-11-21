@@ -2,7 +2,7 @@ import React from 'react';
 import "./cards-perfil.css"
 
 function MangaInfo({ title, imageURL, genres, author, synopsis, rating, votes }) {
-  return (
+  console.log('MangaInfo Props:', { title, imageURL, genres, author, synopsis, rating, votes });  return (
     <div className="manga-background">
       <h1 className="manga-title">{title}</h1>
       <div className="manga-details">
@@ -45,14 +45,5 @@ function MangaInfo({ title, imageURL, genres, author, synopsis, rating, votes })
   );
 }
 
-
-
-function App() {
-  return (
-    <div>
-      <MangaInfo {...manga1} />
-    </div>
-  );
-}
 
 export default MangaInfo;

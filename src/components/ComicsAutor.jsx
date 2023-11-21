@@ -60,14 +60,11 @@ function ComicAutor() {
                                     marginBottom: '0px',
                                     }}  cover={
                                     <img
-
                                         alt="example"
                                         src= {"/imagenes/"+comic.imagenes_description[0]+".jpg"}  //nueva peticion
-
                                     />
                                     }>
                                         <h1>{comic.nombre}</h1>
-
                                 </Card>
                             </Col>
                             </div>
